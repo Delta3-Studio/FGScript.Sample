@@ -107,7 +107,7 @@ let states =
                 damage r.Stamina 20 OnBlock
                 gain r.Energy 30
                 looks High
-                set Stun.Heavy
+                set Stun.Level[6]
                 set BlockStun 15<frames>
                 set JuggleLimit p.JL.Normals
                 set (On(CounterHit, Punish)) HitFlags.Stagger
@@ -144,7 +144,8 @@ let states =
 
                 If(Var.currentFrame .> chargeTime) {
                     log "HP: Fully Charged"
-                    addStun 9<frames>
+                    add BlockStun 9<frames>
+                    add HitStun 7<frames>
                     attackFreeze 13<frames> (On(CounterHit, Punish))
 
                     hitFlags (On Punish) HitFlags.CausesCrumple
@@ -269,7 +270,7 @@ let states =
                 damage 90
                 damage r.Stamina 20 OnBlock
                 gain r.Energy 40
-                set HitStun 23<frames>
+                set HitStun 28<frames>
                 set BlockStun 14<frames>
                 set HitStop 13<frames>
                 set JuggleLimit p.JL.Normals
