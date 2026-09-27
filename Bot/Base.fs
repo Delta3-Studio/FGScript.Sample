@@ -181,7 +181,7 @@ let states =
             }
 
             action {
-                On EachFrame { If !(Var.Entity.guardRequested .& (Query.Input { B })) { exit } }
+                On EachFrame { If !(Var.Entity.inProximityGuard .& (Query.Input { B })) { exit } }
                 animate a.St.Guard 1 11
                 Loop { animate a.St.Guard 12 33 }
             }
@@ -197,7 +197,7 @@ let states =
             }
 
             action {
-                On EachFrame { If(!(Var.Entity.guardRequested .& (Query.Input { DB }))) { exit } }
+                On EachFrame { If(!(Var.Entity.inProximityGuard .& (Query.Input { DB }))) { exit } }
                 animate a.Cr.Guard 1 11
                 Loop { animate a.Cr.Guard 12 33 }
             }

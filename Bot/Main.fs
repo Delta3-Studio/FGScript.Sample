@@ -24,6 +24,7 @@ let main =
         load Normals.states
         load Throws.states
         load Specials.states
+        load BotAI.main
 
         def RESOURCE r.Stamina {
             max 500
