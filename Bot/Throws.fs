@@ -59,7 +59,7 @@ let states =
                 }
 
                 On DidThrow {
-                    If(remote (Args.OnThrow.otherEntityId, hasTag Tag.AutoThrowEscape)) {
+                    If(remote (Args.OnThrow.otherEntityId, HasTag Tag.AutoThrowEscape)) {
                         changeOtherState Args.OnThrow.otherEntityId s.RegularThrow.Escape
                         changeState s.RegularThrow.EscapePushed
                     }
@@ -135,7 +135,7 @@ let states =
                     }
                 }
 
-                Unless(Calc.AnyFlag(Args.OnThrow.reaction, HitReaction.Counter, HitReaction.Punish)) {
+                Unless(CalcOp.AnyFlag(Args.OnThrow.reaction, HitReaction.Counter, HitReaction.Punish)) {
                     On EachFrame {
                         If(
                             Query.Input {
@@ -179,7 +179,7 @@ let states =
                 }
 
                 On DidThrow {
-                    If(remote (Args.OnThrow.otherEntityId, hasTag Tag.AutoThrowEscape)) {
+                    If(remote (Args.OnThrow.otherEntityId, HasTag Tag.AutoThrowEscape)) {
                         changeOtherState Args.OnThrow.otherEntityId s.RegularThrow.Escape
                         changeState s.RegularThrow.EscapePushed
                     }

@@ -14,9 +14,9 @@ let states =
                 s.Cr.Neutral
                 s.Walk.F
                 s.Walk.B
-                t.regularThrows
                 t.allDashes
                 t.allJumps
+                t.regularThrows
                 t.allSpecials
                 t.allNormals
                 t.allTaunts
@@ -27,9 +27,7 @@ let states =
 
             action {
                 On ActionBegin { call "CheckThrowInvuln" }
-
                 On EachFrame { gain r.Stamina p.StaminaRecovery.Normal }
-
                 On ChangeSide { gotoParent "turned" true }
 
                 If(Query.LastState s.Cr.Neutral) {
@@ -180,6 +178,14 @@ let states =
                 skipRelease
             }
 
+            transitions {
+                t.allJumps
+                t.regularThrows
+                t.allSpecials
+                t.allNormals
+                t.allTaunts
+            }
+
             action {
                 On EachFrame { If !(Var.Entity.inProximityGuard .& (Query.Input { B })) { exit } }
                 animate a.St.Guard 1 11
@@ -194,6 +200,14 @@ let states =
             trigger {
                 command DB
                 skipRelease
+            }
+
+            transitions {
+                t.allJumps
+                t.regularThrows
+                t.allSpecials
+                t.allNormals
+                t.allTaunts
             }
 
             action {

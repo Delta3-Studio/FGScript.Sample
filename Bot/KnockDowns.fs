@@ -11,8 +11,11 @@ let states =
             keepFacingSide
             next s.WakeUp.FaceUp
 
-            let isHardKnockDown = Calc.HasFlag(Arg1, HitFlags.HardKnockDown)
-            let isSoftKnockDown = Calc.HasFlag(Arg1, HitFlags.SoftKnockDown) .& !isHardKnockDown
+            let isHardKnockDown = CalcOp.HasFlag(Arg1, HitFlags.HardKnockDown)
+
+            let isSoftKnockDown =
+                CalcOp.HasFlag(Arg1, HitFlags.SoftKnockDown) .& !isHardKnockDown
+
             let fromThrow = Var.LastReceived.attackMode === AttackMode.Throw
 
             action {
@@ -46,8 +49,10 @@ let states =
             keepFacingSide
             next s.WakeUp.FaceDown
 
-            let isHardKnockDown = Calc.HasFlag(Arg1, HitFlags.HardKnockDown)
-            let isSoftKnockDown = Calc.HasFlag(Arg1, HitFlags.SoftKnockDown) .& !isHardKnockDown
+            let isHardKnockDown = CalcOp.HasFlag(Arg1, HitFlags.HardKnockDown)
+
+            let isSoftKnockDown =
+                CalcOp.HasFlag(Arg1, HitFlags.SoftKnockDown) .& !isHardKnockDown
 
             action {
                 If isSoftKnockDown { exit }

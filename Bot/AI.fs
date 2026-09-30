@@ -1,26 +1,34 @@
 module PrototypeFighter.Scripts.Bot.BotAI
 
 open FGScript
+open FGScript.Behaviors
 
 let main =
     def BEHAVIOR {
-        parameter "aggression" [
-            Difficult.Easy => 30<percent>
-            Difficult.Medium => 45<percent>
-            Difficult.Hard => 65<percent>
-        ]
+        init Difficult.Easy {
+            set "aggression" 30<percent>
+            set "guard" 20<percent>
+            set "throw" 8<percent>
+        }
 
-        parameter "guard" [
-            Difficult.Easy => 20<percent>
-            Difficult.Medium => 40<percent>
-            Difficult.Hard => 60<percent>
-        ]
+        init Difficult.Medium {
+            set "aggression" 45<percent>
+            set "guard" 40<percent>
+            set "throw" 14<percent>
+        }
 
-        parameter "throw" [
-            Difficult.Easy => 8<percent>
-            Difficult.Medium => 14<percent>
-            Difficult.Hard => 20<percent>
-        ]
+        init Difficult.Hard {
+            set "aggression" 65<percent>
+            set "guard" 60<percent>
+            set "throw" 20<percent>
+        }
+
+        init () {
+            log "AI: default init"
+            waitSeconds 1
+            wait 10<frames>
+        }
+
 
         def NODE "Root" {
             selector
@@ -32,7 +40,6 @@ let main =
                 "Turtle"
                 "MidCombat"
                 "Approach"
-                "Wait"
             }
         }
 
@@ -41,7 +48,7 @@ let main =
             maxDistance 150
             condition Var.Entity.inProximityGuard
 
-            execute { log "AI: Doing guard" }
+            actions { log "AI: Doing guard" }
 
             nodes {
                 chance 80<percent> "CrouchGuard"
@@ -49,13 +56,13 @@ let main =
             }
         }
 
-        def NODE "StandGuard" { execute { input B 15<times> } }
-        def NODE "CrouchGuard" { execute { input DB 15<times> } }
+        def NODE "StandGuard" { actions { input B 15<times> } }
+        def NODE "CrouchGuard" { actions { input DB 15<times> } }
 
         def NODE "TryThrow" {
             neutralOnly
             maxDistance 50
-            execute { input (LP + LK) }
+            actions { input (LP + LK) }
         }
 
         def NODE "CloseCombat" {
@@ -73,8 +80,7 @@ let main =
 
         def NODE "MidCombat" {
             neutralOnly
-            minDistance 90
-            maxDistance 200
+            distance 90 200
 
             nodes {
                 chance &&"aggression" "AntiAir"
@@ -97,35 +103,39 @@ let main =
             }
         }
 
-        def NODE "HeavyKick" { execute { input HK } }
-        def NODE "CrouchForward" { execute { input D MK } }
-        def NODE "HeavyPunch" { execute { input HP } }
-        def NODE "HeavyPunchHold" { execute { input HP 45<times> } }
+        def NODE "HeavyKick" { actions { input HK } }
+        def NODE "CrouchForward" { actions { input D MK } }
+        def NODE "HeavyPunch" { actions { input HP } }
+        def NODE "HeavyPunchHold" { actions { input HP 45<times> } }
 
         def NODE "MediumAttack" {
             chance 55<percent>
-            execute { input MP }
+            actions { input MP }
         }
 
         def NODE "Sweep" {
             chance 15<percent>
-            execute { input D HK }
+            actions { input D HK }
         }
 
-        def NODE "QuickAttack" { execute { input LP } }
+        def NODE "QuickAttack" { actions { input LP } }
 
         def NODE "AntiAir" {
             stance Grounded
             condition (opponent (Var.Entity.isAirborne .& !Var.Entity.inStunLike))
 
-            execute {
+            actions {
                 log "AI: Doing anti-air"
                 input DP HP
             }
         }
 
         def NODE "Fireball" {
-            execute {
+            decorator { log "fireball tick..." }
+
+            actions {
+                inc "counter"
+                log "Doing Fireball" &&"counter"
                 wait 12<frames>
                 input QCF MP
             }
@@ -133,21 +143,21 @@ let main =
 
         def NODE "DonkeyKick.EX" {
             condition (res r.Energy .>= 100)
-            execute { input !B F KK }
+            actions { input !B F KK }
         }
 
-        def NODE "Tatsu" { execute { input HCB LK } }
+        def NODE "Tatsu" { actions { input HCB LK } }
 
-        def NODE "Advance" { execute { input F 5<times> } }
+        def NODE "Advance" { actions { input F 5<times> } }
 
         def NODE "DiveKick" {
             stance Airborne
-            execute { input QCB HK }
+            actions { input QCB HK }
         }
 
         def NODE "Approach" {
             neutralOnly
-            minDistance 200
+            distance 200
 
             nodes {
                 chance 16<percent> "JumpIn"
@@ -160,7 +170,7 @@ let main =
             neutralOnly
             weighted
 
-            execute {
+            actions {
                 input UF
                 wait 14<frames>
             }
@@ -174,7 +184,7 @@ let main =
         def NODE "JumpIn.HK" {
             stance Airborne
 
-            execute {
+            actions {
                 wait 12<frames>
                 input HK
             }
@@ -182,11 +192,10 @@ let main =
 
         def NODE "Turtle" {
             chance 20<percent>
-            execute { input DB 16<times> }
+            actions { input DB 16<times> }
         }
 
-        def NODE "WalkForward" { execute { input F 8<times> } }
-        def NODE "WalkBack" { execute { input B 8<times> } }
-        def NODE "DashForward" { execute { input F F } }
-        def NODE "Wait" { execute { frame } }
+        def NODE "WalkForward" { actions { input F 8<times> } }
+        def NODE "WalkBack" { actions { input B 8<times> } }
+        def NODE "DashForward" { actions { input F F } }
     }
