@@ -25,8 +25,9 @@ let states =
 
             action {
                 phase Startup
+                animate a.Sp.Fireball 4 8
                 playVoice v.Sp.Fireball (Pitch 2<percent>)
-                animate a.Sp.Fireball 4 16
+                animate a.Sp.Fireball 9 16
                 frame a.Sp.Fireball 18
                 frame a.Sp.Fireball 20
                 frame a.Sp.Fireball 25
@@ -53,8 +54,9 @@ let states =
 
             action {
                 phase Startup
+                animate a.Sp.Fireball 6 10
                 playVoice v.Sp.Fireball (Pitch 2<percent>)
-                animate a.Sp.Fireball 6 15
+                animate a.Sp.Fireball 11 15
                 frame a.Sp.Fireball 18
                 frame a.Sp.Fireball 20
                 frame a.Sp.Fireball 25
@@ -85,8 +87,9 @@ let states =
 
             action {
                 phase Startup
+                animate a.Sp.Fireball 6 10
                 playVoice v.Sp.Fireball (Pitch 2<percent>)
-                animate a.Sp.Fireball 6 15
+                animate a.Sp.Fireball 11 15
 
                 On EachPose { transformBone bones.Spine2 (Rotate(Axis.X, -20.0<deg>)) }
 
@@ -126,8 +129,9 @@ let states =
                 }
 
                 phase Startup
+                animate a.Sp.Fireball 6 10
                 playVoice v.Sp.Fireball (Pitch 2<percent>)
-                animate a.Sp.Fireball 6 15
+                animate a.Sp.Fireball 11 15
                 frame a.Sp.Fireball 18
                 frame a.Sp.Fireball 20
                 frame a.Sp.Fireball 25
@@ -181,9 +185,9 @@ let states =
                 On DidHit { shake 20<frames> (4, 6) }
 
                 phase Startup
-                playVoice v.Sp.Tatsu (Pitch 2<percent>)
                 animate a.Sp.Tatsu.Start 1 4
                 frame a.Sp.Tatsu.Start 6
+                playVoice v.Sp.Tatsu (Pitch 2<percent>)
                 frame a.Sp.Tatsu.Start 7
                 frame a.Sp.Tatsu.Start 9
                 frame a.Sp.Tatsu.Start 10
@@ -254,9 +258,10 @@ let states =
                 On DidHit { shake 20<frames> (8, 10) }
 
                 phase Startup
-                playVoice v.Sp.Tatsu (Pitch 2<percent>)
                 animate a.Sp.Tatsu.Start 1 4
-                animate a.Sp.Tatsu.Start 6 10
+                frame a.Sp.Tatsu.Start 6
+                playVoice v.Sp.Tatsu (Pitch 2<percent>)
+                animate a.Sp.Tatsu.Start 7 10
                 effect Vfx.Dust At.Foot
                 stance Airborne
                 move Upward 10
@@ -332,8 +337,9 @@ let states =
                 On DidHit { shake 20<frames> (8, 10) }
 
                 phase Startup
+                animate a.Sp.Tatsu.Start 1 5
                 playVoice v.Sp.Tatsu (Pitch 2<percent>)
-                animate a.Sp.Tatsu.Start 1 10
+                animate a.Sp.Tatsu.Start 6 10
                 effect Vfx.Dust At.Foot
                 stance Airborne
                 move Upward 10
@@ -424,9 +430,10 @@ let states =
                 }
 
                 phase Startup
-                playVoice v.Sp.Tatsu (Pitch 2<percent>)
                 animate a.Sp.Tatsu.Start 1 4
-                animate a.Sp.Tatsu.Start 6 10
+                frame a.Sp.Tatsu.Start 6
+                playVoice v.Sp.Tatsu (Pitch 2<percent>)
+                animate a.Sp.Tatsu.Start 7 10
                 effect Vfx.Dust Floor [ Translate(Axis.X, -50); Scale(Axis.XYZ, 0.8); Rotate(Axis.Z, -15.<deg>) ]
                 effect Vfx.Dust Floor [ Translate(Axis.X, 50); Scale(Axis.XYZ, 0.8); Rotate(Axis.Z, -165.<deg>) ]
                 stance Airborne
@@ -506,10 +513,10 @@ let states =
                 }
 
                 phase Startup
-                playVoice v.Sp.Uppercut (Pitch 2<percent>)
                 animate a.Sp.Uppercut 0 1
                 frame a.Sp.Uppercut 3
                 frame a.Sp.Uppercut 5
+                playVoice v.Sp.Uppercut (Pitch 2<percent>)
 
                 phase Active
                 set Vel.X 2.5
@@ -564,8 +571,8 @@ let states =
                 }
 
                 phase Startup
-                playVoice v.Sp.Uppercut (Pitch 2<percent>)
                 animate a.Sp.Uppercut 0 3
+                playVoice v.Sp.Uppercut (Pitch 2<percent>)
                 frame a.Sp.Uppercut 5
 
                 phase Active
@@ -624,8 +631,8 @@ let states =
                 }
 
                 phase Startup
-                playVoice v.Sp.Uppercut (Pitch 2<percent>)
                 animate a.Sp.Uppercut 0 3
+                playVoice v.Sp.Uppercut (Pitch 2<percent>)
                 set Vel.X 10
                 animate a.Sp.Uppercut 4 5
 
@@ -703,11 +710,11 @@ let states =
                 }
 
                 phase Startup
-                playVoice v.Sp.Uppercut (Pitch 2<percent>)
                 animate a.Sp.Uppercut 0 1
                 set Vel.X 10
                 frame a.Sp.Uppercut 3
                 frame a.Sp.Uppercut 5
+                playVoice v.Sp.Uppercut (Pitch 2<percent>)
 
                 phase Active
                 set Vel.X 5.5
@@ -773,8 +780,9 @@ let states =
                 }
 
                 phase Startup
+                animate a.Sp.DonkeyKick 14 18
                 playVoice v.Attack.Heavy
-                animate a.Sp.DonkeyKick 14 24
+                animate a.Sp.DonkeyKick 19 24
                 playSound Sfx.Swing.HK
                 animate a.Sp.DonkeyKick 25 26
 
@@ -825,8 +833,9 @@ let states =
                 }
 
                 phase Startup
+                animate a.Sp.DonkeyKick 10 14
                 playVoice v.Attack.Heavy
-                animate a.Sp.DonkeyKick 10 20
+                animate a.Sp.DonkeyKick 15 20
                 playSound Sfx.Swing.HK
                 animate a.Sp.DonkeyKick 21 26
 

@@ -9,7 +9,7 @@ let main = [
             log "BEGIN: Projectile - Speed:" (var Arg1)
             set Vel.X Arg1
             turn (var Rotation)
-            send Signal.Parent (Gen.Random(0, 10))
+            send Signal.Parent (Calc.Random(0, 10))
 
             enable BoxLayer.Layer2
             Timer 3<frames> { disable BoxLayer.Layer2 }

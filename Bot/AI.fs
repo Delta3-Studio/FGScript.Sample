@@ -29,6 +29,18 @@ let main =
             wait 10<frames>
         }
 
+        On NEUTRAL { log "AI: in neutral" }
+        On DidContact { log "AI: touch opponent" }
+
+        On GotHit {
+            If(Var.Combo.hitsTaken == 0)
+            log "AI: got hit!"
+        }
+
+        On GotThrown {
+            Chance &&"guard"
+            press (LP + LK)
+        }
 
         def NODE "Root" {
             selector
@@ -61,7 +73,7 @@ let main =
 
         def NODE "TryThrow" {
             neutralOnly
-            maxDistance 50
+            maxDistance 65
             actions { input (LP + LK) }
         }
 
