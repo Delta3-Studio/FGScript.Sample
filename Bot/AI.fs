@@ -42,10 +42,22 @@ let main =
             press (LP + LK)
         }
 
+        On KnockedDown {
+            Chance 50<percent>
+            input U 10<times>
+        }
+
+        On DidBlock {
+            Chance 25<percent>
+            If(res r.Stamina .>= 150)
+            input F (HP + HK)
+        }
+
         def NODE "Root" {
             selector
 
             nodes {
+                "ChooseWakeUp"
                 chance &&"guard" "ChooseGuard"
                 chance &&"throw" "TryThrow"
                 "CloseCombat"
@@ -53,6 +65,32 @@ let main =
                 "MidCombat"
                 "Approach"
             }
+        }
+
+        def NODE "ChooseWakeUp" {
+            condition Var.Entity.isKnockedDown
+
+            nodes {
+                "RollForward"
+                "RollBackward"
+                "Wait"
+            }
+        }
+
+        def NODE "Wait" { actions { waitStateChange } }
+
+        def NODE "RollForward" {
+            chance 20<percent>
+            condition (res r.Stamina .>= 10)
+            condition (Var.frontCornerDistance .> 100)
+            actions { input F 60<times> }
+        }
+
+        def NODE "RollBackward" {
+            chance 20<percent>
+            condition (res r.Stamina .>= 10)
+            condition (Var.backCornerDistance .> 100)
+            actions { input B 60<times> }
         }
 
         def NODE "ChooseGuard" {
@@ -84,6 +122,7 @@ let main =
             nodes {
                 chance 20<percent> "AntiAir"
                 chance 10<percent> "WalkBack"
+                "TargetCombo"
                 "HeavyAttack"
                 "MediumAttack"
                 "QuickAttack"
@@ -100,6 +139,19 @@ let main =
                 chance 20<percent> "Fireball"
                 chance 15<percent> "DonkeyKick.EX"
                 "Advance"
+            }
+        }
+
+        def NODE "TargetCombo" {
+            chance 15<percent>
+
+            actions {
+                input MP
+                wait 10<frames>
+                input HP
+                guard (Var.Combo.hits .> 0)
+                wait 10<frames>
+                input HK
             }
         }
 

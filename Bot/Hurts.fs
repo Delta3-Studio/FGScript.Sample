@@ -152,7 +152,10 @@ let states =
             next s.HitStun.LandBack Args.Forward
 
             action {
-                On ActionBegin { set Var.Body.anchored }
+                On ActionBegin {
+                    update Position.Y (Max(num 15))
+                    set Var.Body.anchored
+                }
 
                 On TouchWall {
                     If(
@@ -184,7 +187,11 @@ let states =
             next s.HitStun.LandBack Args.Forward
 
             action {
-                On ActionBegin { set Var.Body.anchored }
+                On ActionBegin {
+                    update Position.Y (Max(num 15))
+                    set Var.Body.anchored
+                }
+
                 animate a.HitStun.KnockUp 1 4
                 clear Var.Body.anchored
                 On Landing { exit }
@@ -205,6 +212,7 @@ let states =
             action {
                 On ActionBegin {
                     set Gravity p.Gravity
+                    update Position.Y (Max(num 15))
                     set Vel (-2, 14)
                 }
 
@@ -327,6 +335,7 @@ let states =
             action {
                 On ActionBegin {
                     set Gravity p.Gravity
+                    update Position.Y (Max(num 10))
                     set Vel (-3, 12)
                 }
 
@@ -392,6 +401,7 @@ let states =
                 On ActionBegin {
                     stop
                     disable HurtBox
+                    update Position.Y (Max(num 10))
                     set Gravity p.FallGravity
                     set Vel (-3, 10)
                 }
