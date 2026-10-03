@@ -153,7 +153,7 @@ let states =
 
             action {
                 On ActionBegin {
-                    update Position.Y (Max(num 15))
+                    update Position.Y (Max(num 10))
                     set Var.Body.anchored
                 }
 

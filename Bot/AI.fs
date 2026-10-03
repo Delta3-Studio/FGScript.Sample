@@ -110,6 +110,8 @@ let main =
         def NODE "CrouchGuard" { actions { input DB 15<times> } }
 
         def NODE "TryThrow" {
+            condition (opponent !Var.Entity.isKnockedDown)
+            condition (opponent !Var.Entity.isWakingUp)
             neutralOnly
             maxDistance 65
             actions { input (LP + LK) }
@@ -118,11 +120,12 @@ let main =
         def NODE "CloseCombat" {
             neutralOnly
             maxDistance 90
+            condition (opponent !Var.Entity.isKnockedDown)
 
             nodes {
                 chance 20<percent> "AntiAir"
                 chance 10<percent> "WalkBack"
-                "TargetCombo"
+                chance 25<percent> "DoCombo"
                 "HeavyAttack"
                 "MediumAttack"
                 "QuickAttack"
@@ -135,23 +138,11 @@ let main =
 
             nodes {
                 chance &&"aggression" "AntiAir"
+                chance 60<percent> "FireballUp"
                 chance 18<percent> "Tatsu"
                 chance 20<percent> "Fireball"
                 chance 15<percent> "DonkeyKick.EX"
                 "Advance"
-            }
-        }
-
-        def NODE "TargetCombo" {
-            chance 15<percent>
-
-            actions {
-                input MP
-                wait 10<frames>
-                input HP
-                guard (Var.Combo.hits .> 0)
-                wait 10<frames>
-                input HK
             }
         }
 
@@ -160,7 +151,6 @@ let main =
 
             nodes {
                 chance 10<percent> "Sweep"
-                chance 15<percent> "CrouchForward"
                 chance 20<percent> "HeavyPunchHold"
                 chance 20<percent> "HeavyKick"
                 "HeavyPunch"
@@ -168,7 +158,6 @@ let main =
         }
 
         def NODE "HeavyKick" { actions { input HK } }
-        def NODE "CrouchForward" { actions { input D MK } }
         def NODE "HeavyPunch" { actions { input HP } }
         def NODE "HeavyPunchHold" { actions { input HP 45<times> } }
 
@@ -201,7 +190,22 @@ let main =
                 inc "counter"
                 log "Doing Fireball" &&"counter"
                 wait 12<frames>
+
+                Case(res r.Energy .>= 100)
+                Chance 15<percent>
+                input QCF PP
+
                 input QCF MP
+            }
+        }
+
+        def NODE "FireballUp" {
+            stance Grounded
+            condition (opponent (Var.Entity.isAirborne .& !Var.Entity.inStunLike))
+
+            actions {
+                wait 12<frames>
+                input QCF HP
             }
         }
 
@@ -262,4 +266,45 @@ let main =
         def NODE "WalkForward" { actions { input F 8<times> } }
         def NODE "WalkBack" { actions { input B 8<times> } }
         def NODE "DashForward" { actions { input F F } }
+
+        def NODE "DoCombo" {
+            chance 30<percent>
+
+            nodes {
+                chance 20<percent> "Cr.Forward.Fireball"
+                chance 20<percent> "Cr.Strong.Tatsu"
+                "TargetCombo"
+            }
+        }
+
+        def NODE "TargetCombo" {
+            actions {
+                input MP
+
+                wait 10<frames>
+                input HP
+
+                guard Var.inCombo
+                wait 10<frames>
+                input HK
+            }
+        }
+
+        def NODE "Cr.Forward.Fireball" {
+            actions {
+                input D MK
+                wait 10<frames>
+                guard Var.inCombo
+                input QCF MP
+            }
+        }
+
+        def NODE "Cr.Strong.Tatsu" {
+            actions {
+                input D MP
+                wait 5<frames>
+                guard Var.inCombo
+                input HCB KK
+            }
+        }
     }
