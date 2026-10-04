@@ -36,8 +36,9 @@ let states =
 
             action {
                 phase Startup
+                animate a.St.LP 0 1
                 playVoice v.Attack.Light Skippable
-                animate a.St.LP 0 2
+                frame a.St.LP 2
 
                 phase Active
                 playSound Sfx.Swing.LP
@@ -80,9 +81,10 @@ let states =
 
             action {
                 phase Startup
+                animate a.St.MP 0 2
                 playVoice v.Attack.Medium Skippable
+                animate a.St.MP 3 4
                 // freeze 30<frames>
-                animate a.St.MP 0 4
 
                 phase Active
                 playSound Sfx.Swing.MP
@@ -153,11 +155,11 @@ let states =
                     hitSpark Vfx.HitSpark.PunishCrumple (On Punish)
                 }
 
-                playVoice v.Attack.Heavy Skippable
                 move Forward 10
                 frame a.St.HP 6
                 move Forward 10
                 frame a.St.HP 7
+                playVoice v.Attack.Heavy Skippable
                 move Forward 10
                 frame a.St.HP 8
                 move Forward 10
@@ -196,11 +198,12 @@ let states =
 
             action {
                 phase Startup
+                animate a.St.LK 0 1
                 playVoice v.Attack.Light Skippable
-                playSound Sfx.Swing.LK
-                animate a.St.LK 0 3
+                animate a.St.LK 2 3
 
                 phase Active
+                playSound Sfx.Swing.LK
                 animate a.St.LK 4 6
 
                 phase Recovery
@@ -244,8 +247,9 @@ let states =
 
             action {
                 phase Startup
+                animate a.St.MK 0 1
                 playVoice v.Attack.Medium Skippable
-                animate a.St.MK 0 8
+                animate a.St.MK 2 8
 
                 phase Active
                 playSound Sfx.Swing.MK
@@ -292,8 +296,9 @@ let states =
                 On DidHit { shake 20<frames> (10, 12) }
 
                 phase Startup
+                animate a.St.HK 0 2
                 playVoice v.Attack.Heavy Skippable
-                animate a.St.HK 0 11
+                animate a.St.HK 3 11
 
                 phase Active
                 playSound Sfx.Swing.HK
@@ -384,8 +389,9 @@ let states =
 
             action {
                 phase Startup
+                animate a.Cr.MP 0 1
                 playVoice v.Attack.Medium Skippable
-                animate a.Cr.MP 0 4
+                animate a.Cr.MP 2 4
 
                 phase Active
                 playSound Sfx.Swing.MP
@@ -431,8 +437,9 @@ let states =
 
             action {
                 phase Startup
+                animate a.Cr.HP 0 1
                 playVoice v.Attack.Heavy Skippable
-                animate a.Cr.HP 0 7
+                animate a.Cr.HP 2 7
 
                 phase Active
                 playSound Sfx.Swing.HP
@@ -473,8 +480,9 @@ let states =
 
             action {
                 phase Startup
+                animate a.Cr.LK 1 2
                 playVoice v.Attack.Light Skippable
-                animate a.Cr.LK 1 4
+                animate a.Cr.LK 3 4
 
                 phase Active
                 playSound Sfx.Swing.LK
@@ -515,8 +523,9 @@ let states =
 
             action {
                 phase Startup
+                animate a.Cr.MK 0 1
                 playVoice v.Attack.Medium Skippable
-                animate a.Cr.MK 0 6
+                animate a.Cr.MK 2 6
 
                 phase Active
                 playSound Sfx.Swing.MK
@@ -557,8 +566,9 @@ let states =
 
             action {
                 phase Startup
+                animate a.Cr.HK 0 1
                 playVoice v.Attack.Heavy Skippable
-                animate a.Cr.HK 0 7
+                animate a.Cr.HK 2 7
 
                 phase Active
                 playSound Sfx.Swing.HK
@@ -593,8 +603,9 @@ let states =
             action {
                 On Landing { exit }
                 phase Startup
+                animate a.Jump.LP 1 2
                 playVoice v.Attack.Light Skippable
-                animate a.Jump.LP 1 4
+                animate a.Jump.LP 3 4
 
                 phase Active
                 playSound Sfx.Swing.LP
@@ -632,8 +643,9 @@ let states =
                 On Landing { exit }
 
                 phase Startup
+                animate a.Jump.MP 0 1
                 playVoice v.Attack.Medium Skippable
-                animate a.Jump.MP 0 6
+                animate a.Jump.MP 2 6
 
                 phase Active
                 playSound Sfx.Swing.MK
@@ -673,8 +685,9 @@ let states =
             action {
                 On Landing { exit }
                 phase Startup
+                animate a.Jump.HP 0 1
                 playVoice v.Attack.Heavy Skippable
-                animate a.Jump.HP 0 7
+                animate a.Jump.HP 2 7
 
                 phase Active
                 playSound Sfx.Swing.HP
@@ -709,8 +722,9 @@ let states =
             action {
                 On Landing { exit }
                 phase Startup
+                animate a.Jump.LK 0 1
                 playVoice v.Attack.Light Skippable
-                animate a.Jump.LK 0 4
+                animate a.Jump.LK 2 4
 
                 phase Active
                 playSound Sfx.Swing.MK
@@ -746,8 +760,9 @@ let states =
             action {
                 On Landing { exit }
                 phase Startup
+                animate a.Jump.MK 0 1
                 playVoice v.Attack.Medium Skippable
-                animate a.Jump.MK 0 5
+                animate a.Jump.MK 2 5
 
                 phase Active
                 playSound Sfx.Swing.MK
@@ -785,8 +800,9 @@ let states =
             action {
                 On Landing { exit }
                 phase Startup
+                animate a.Jump.HK 0 1
                 playVoice v.Attack.Heavy Skippable
-                animate a.Jump.HK 0 8
+                animate a.Jump.HK 2 8
 
                 phase Active
                 playSound Sfx.Swing.HK
@@ -861,8 +877,9 @@ let states =
 
             action {
                 phase Startup
+                animate a.St.B_MK 1 4
                 playVoice v.Attack.Medium Skippable
-                animate a.St.B_MK 1 9
+                animate a.St.B_MK 5 9
 
                 phase Active
                 playSound Sfx.Swing.MK

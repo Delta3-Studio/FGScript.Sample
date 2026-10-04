@@ -187,10 +187,10 @@ let states =
                 phase Startup
                 animate a.Sp.Tatsu.Start 1 4
                 frame a.Sp.Tatsu.Start 6
-                playVoice v.Sp.Tatsu (Pitch 2<percent>)
                 frame a.Sp.Tatsu.Start 7
                 frame a.Sp.Tatsu.Start 9
                 frame a.Sp.Tatsu.Start 10
+                playVoice v.Sp.Tatsu (Pitch 2<percent>)
                 effect Vfx.Dust At.Foot
                 stance Airborne
                 move Upward 10
@@ -259,9 +259,8 @@ let states =
 
                 phase Startup
                 animate a.Sp.Tatsu.Start 1 4
-                frame a.Sp.Tatsu.Start 6
+                animate a.Sp.Tatsu.Start 6 10
                 playVoice v.Sp.Tatsu (Pitch 2<percent>)
-                animate a.Sp.Tatsu.Start 7 10
                 effect Vfx.Dust At.Foot
                 stance Airborne
                 move Upward 10
@@ -337,9 +336,8 @@ let states =
                 On DidHit { shake 20<frames> (8, 10) }
 
                 phase Startup
-                animate a.Sp.Tatsu.Start 1 5
+                animate a.Sp.Tatsu.Start 1 10
                 playVoice v.Sp.Tatsu (Pitch 2<percent>)
-                animate a.Sp.Tatsu.Start 6 10
                 effect Vfx.Dust At.Foot
                 stance Airborne
                 move Upward 10
@@ -432,7 +430,7 @@ let states =
                 phase Startup
                 animate a.Sp.Tatsu.Start 1 4
                 frame a.Sp.Tatsu.Start 6
-                playVoice v.Sp.Tatsu (Pitch 2<percent>)
+                playVoice v.Sp.Tatsu (Pitch 3<percent>)
                 animate a.Sp.Tatsu.Start 7 10
                 effect Vfx.Dust Floor [ Translate(Axis.X, -50); Scale(Axis.XYZ, 0.8); Rotate(Axis.Z, -15.<deg>) ]
                 effect Vfx.Dust Floor [ Translate(Axis.X, 50); Scale(Axis.XYZ, 0.8); Rotate(Axis.Z, -165.<deg>) ]
@@ -729,14 +727,14 @@ let states =
                 hitAgain
                 animate a.Sp.Uppercut 11 14
                 set Friction 0.3
-                frame a.Sp.Uppercut 15
+                frame a.Sp.Uppercut 15 6<times>
 
                 phase Recovery
+                disable FullyInvuln
                 Repeat(Var.Body.currentApexFrames - 1) { frame a.Sp.Uppercut 19 }
                 animate a.Sp.Uppercut 20 25
                 clear Vel.X
                 clear Friction
-                enable FullyInvuln
                 On Landing { gotoParent "landing" }
                 animate a.Sp.Uppercut 26 50
 

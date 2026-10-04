@@ -25,8 +25,8 @@ let main =
 
         init () {
             log "AI: default init"
-            waitSeconds 1
-            wait 10<frames>
+            waitSeconds 0.5
+            wait 20<frames>
         }
 
         On NEUTRAL { log "AI: in neutral" }
@@ -124,8 +124,9 @@ let main =
 
             nodes {
                 chance 20<percent> "AntiAir"
+                chance 18<percent> "Overhead"
                 chance 10<percent> "WalkBack"
-                chance 25<percent> "DoCombo"
+                chance 30<percent> "DoCombo"
                 "HeavyAttack"
                 "MediumAttack"
                 "QuickAttack"
@@ -144,6 +145,11 @@ let main =
                 chance 15<percent> "DonkeyKick.EX"
                 "Advance"
             }
+        }
+
+        def NODE "Overhead" {
+            condition (opponent Var.Entity.isCrouching)
+            actions { input F MP }
         }
 
         def NODE "HeavyAttack" {
@@ -268,8 +274,6 @@ let main =
         def NODE "DashForward" { actions { input F F } }
 
         def NODE "DoCombo" {
-            chance 30<percent>
-
             nodes {
                 chance 20<percent> "Cr.Forward.Fireball"
                 chance 20<percent> "Cr.Strong.Tatsu"
