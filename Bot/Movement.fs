@@ -160,7 +160,7 @@ let states =
             }
 
             transitions {
-                beforeFrame karaFrames
+                before karaFrames
                 kara t.allSpecials
                 kara s.Jump.Forward
                 kara s.Jump.Backward
@@ -261,6 +261,7 @@ let states =
             transitions {
                 kara karaFrames t.allSpecials
                 empty karaFrames t.airNormals
+                s.Sp.DiveKick.EX
             }
 
             next s.Jump.Landing

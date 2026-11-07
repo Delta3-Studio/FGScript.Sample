@@ -39,7 +39,7 @@ let main = [
 
         On(Parent, Signal.Opponent) { log "OWNER: From Opponent" Arg1 Arg2 Args.Last }
 
-        On(Parent, GotHit) {
+        On(Parent, GotHit, GotThrown) {
             log "OWNER: Got-Hit"
             destroy
         }
@@ -86,6 +86,8 @@ let main = [
             call "NextHit"
         }
 
+        On(Parent, GotHit, GotThrown) { destroy }
+
         def FUNC "NextHit" {
             dec hitCount
             If(hitCount .<= Zero) { destroy }
@@ -119,4 +121,79 @@ let main = [
         }
     }
 
+    def PROJECTILE "SuperFireball" {
+        let hitCount = var ()
+        let counterHit = var ()
+
+        On INIT {
+            set Vel.X Arg1
+            set hitCount 5
+            clear counterHit
+
+            enable BoxLayer.Layer2
+            Timer 3<frames> { disable BoxLayer.Layer2 }
+        }
+
+        On DESTROYED { effect Vfx.Fireball.Hit [ (Scale(Axis.XYZ, 2)) ] }
+        On LeaveScreen { destroy }
+
+        On(GotBlocked, DidArmorHit) { call "NextHit" }
+
+        On DidHit {
+            If(IsAny(Args.OnHit.reactionType, [ HitReaction.Counter; HitReaction.Punish ])) {
+                set counterHit
+                log "Fireball on counter or punish" counterHit
+            }
+
+            call "NextHit"
+        }
+
+        On Clash {
+            playSound Sfx.Clash
+            If(Args.OnClash.priority .> Args.OnClash.otherPriority) { pass }
+            call "NextHit"
+        }
+
+        def FUNC "NextHit" {
+            dec hitCount
+            If(hitCount .<= Zero) { destroy }
+
+            If(hitCount == One) {
+                attack Stun.Level[6]
+                attack HitStopTaken 0<frames>
+
+                If counterHit {
+                    attack KnockBack (25, 10) p.SlowGravity
+                    enable HitFlags.WallBounce
+                }
+
+                Else {
+                    attack KnockBack (5.0, 10) p.FallGravity
+                    enable HitFlags.WallSplat
+                }
+            }
+
+            enable EntityFlags.SkipScaling
+            hitAgain
+        }
+
+        attack {
+            projectile
+            damage 80
+            damage r.Stamina 24 OnBlock
+            maxScaling 30<percent>
+            armorBreak
+            set Stun.Level[5]
+            set HitStopTaken (frames Stun.Level[5].HitStun)
+            set KnockBack (2, 6) 0.85
+            pushback OnHit 30
+            pushbackLinear
+            hitEffect OriginPoint Vfx.HitEffect.Fire
+        }
+
+        action {
+            On DidContact { log "Available Hits" hitCount }
+            frame 240<times>
+        }
+    }
 ]

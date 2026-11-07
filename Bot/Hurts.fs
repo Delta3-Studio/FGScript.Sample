@@ -247,7 +247,7 @@ let states =
 
                 frame a.HitStun.GroundBounce 0
                 call "KnockLand"
-                shake 10<frames> (3, 5)
+                screenShake 10<frames> (3, 5)
                 pause 3<frames>
                 animate a.HitStun.GroundBounce 1 2
                 set Gravity 0.85
@@ -275,7 +275,7 @@ let states =
                 If(FinalPosition.Y .< 80) { set FinalPosition.Y 80 }
                 effect Vfx.WallHit (ClosestWall 80) [ Rotate(Axis.Y, 75.<deg>) ]
                 frame
-                shake 20<frames> (4, 6)
+                screenShake 20<frames> (4, 6)
                 pause 6<frames>
                 animate a.HitStun.WallBounce 0 2
                 set Gravity p.SlowGravity
@@ -303,14 +303,14 @@ let states =
                 effect Vfx.WallHit (ClosestWall 80) [ Rotate(Axis.Y, 75.<deg>) ]
                 frame
 
-                shake 20<frames> 3
+                screenShake 20<frames> 3
                 pause 6<frames>
                 animate a.HitStun.WallBounce 1 10
                 set Gravity 0.25
 
                 On Landing {
                     clearEvent
-                    gotoParent "landed"
+                    goto "landed"
                 }
 
                 fitAnimate Var.Body.currentFallFrames a.HitStun.WallBounce 10 12

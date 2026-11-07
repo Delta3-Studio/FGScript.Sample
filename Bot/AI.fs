@@ -2,9 +2,13 @@ module PrototypeFighter.Scripts.Bot.BotAI
 
 open FGScript
 open FGScript.Behaviors
+open PrototypeFighter.Scripts
 
 let main =
     def BEHAVIOR {
+        let oneEnergy = res r.Energy .>= 100
+        let fullEnergy = res r.Energy .>= 300
+
         init Difficult.Easy {
             set "aggression" 30<percent>
             set "guard" 20<percent>
@@ -126,7 +130,7 @@ let main =
                 chance 20<percent> "AntiAir"
                 chance 18<percent> "Overhead"
                 chance 10<percent> "WalkBack"
-                chance 30<percent> "DoCombo"
+                chance 45<percent> "DoCombo"
                 "HeavyAttack"
                 "MediumAttack"
                 "QuickAttack"
@@ -140,6 +144,7 @@ let main =
             nodes {
                 chance &&"aggression" "AntiAir"
                 chance 60<percent> "FireballUp"
+                chance 80<percent> "Super.Fireball"
                 chance 18<percent> "Tatsu"
                 chance 20<percent> "Fireball"
                 chance 15<percent> "DonkeyKick.EX"
@@ -197,7 +202,7 @@ let main =
                 log "Doing Fireball" &&"counter"
                 wait 12<frames>
 
-                Case(res r.Energy .>= 100)
+                Case oneEnergy
                 Chance 15<percent>
                 input QCF PP
 
@@ -216,8 +221,14 @@ let main =
         }
 
         def NODE "DonkeyKick.EX" {
-            condition (res r.Energy .>= 100)
+            condition oneEnergy
             actions { input !B F KK }
+        }
+
+        def NODE "Super.Fireball" {
+            condition (fullEnergy .& (opponent !Var.Entity.isKnockedDown))
+            distance 110
+            actions { input QCFx2 LP }
         }
 
         def NODE "Tatsu" { actions { input HCB LK } }
@@ -281,6 +292,16 @@ let main =
             }
         }
 
+        def NODE "Combo.Super" {
+            condition (Var.inCombo .& fullEnergy)
+            chance 10<percent>
+
+            actions {
+                wait 25<frames>
+                input QCFx2 LP
+            }
+        }
+
         def NODE "TargetCombo" {
             actions {
                 input MP
@@ -291,6 +312,7 @@ let main =
                 guard Var.inCombo
                 wait 10<frames>
                 input HK
+                goto "Combo.Super"
             }
         }
 
@@ -300,6 +322,7 @@ let main =
                 wait 10<frames>
                 guard Var.inCombo
                 input QCF MP
+                goto "Combo.Super"
             }
         }
 

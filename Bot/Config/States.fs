@@ -143,3 +143,5 @@ module s =
             EX = "Sp.DiveKick.EX"
         |}
     |}
+
+    let Super = {| Fireball = "Super.Fireball" |}

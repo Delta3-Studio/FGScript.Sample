@@ -21,21 +21,30 @@ let states =
                 light
             }
 
-            transitions { t.specialDashCancellable }
+            transitions {
+                t.specialDashCancellable
+                chain t.allSupers
+            }
 
             action {
                 phase Startup
                 animate a.Sp.Fireball 4 8
                 playVoice v.Sp.Fireball (Pitch 2<percent>)
+
                 animate a.Sp.Fireball 9 16
                 frame a.Sp.Fireball 18
                 frame a.Sp.Fireball 20
+
                 frame a.Sp.Fireball 25
-                playSound Sfx.Fireball
-                effect Vfx.Fireball.Flash At.Hand
                 spawn "Fireball" At.Hint (args 6)
+                frame a.Sp.Fireball 33
+                playSound Sfx.Fireball
+
+                effect Vfx.Fireball.Flash At.Hand
+                frame a.Sp.Fireball 34
+
                 phase Recovery
-                animate a.Sp.Fireball 33 66
+                animate a.Sp.Fireball 35 66
             }
         }
 
@@ -45,7 +54,11 @@ let states =
             condition (!Query.Entity.OfType.Projectile())
 
             trigger { command QCF MP }
-            transitions { t.specialDashCancellable }
+
+            transitions {
+                t.specialDashCancellable
+                chain t.allSupers
+            }
 
             attack {
                 projectile
@@ -59,14 +72,15 @@ let states =
                 animate a.Sp.Fireball 11 15
                 frame a.Sp.Fireball 18
                 frame a.Sp.Fireball 20
+
                 frame a.Sp.Fireball 25
+                spawn "Fireball" At.Hint (args 8)
+                frame a.Sp.Fireball 26
                 playSound Sfx.Fireball
                 effect Vfx.Fireball.Flash At.Hand
-                spawn "Fireball" At.Hint (args 8)
+                frame a.Sp.Fireball 27
 
                 phase Recovery
-                frame a.Sp.Fireball 26
-                frame a.Sp.Fireball 27
                 animate a.Sp.Fireball 33 66
             }
         }
@@ -78,7 +92,10 @@ let states =
 
             trigger { command QCF HP }
 
-            transitions { t.specialDashCancellable }
+            transitions {
+                t.specialDashCancellable
+                chain t.allSupers
+            }
 
             attack {
                 projectile
@@ -95,13 +112,13 @@ let states =
 
                 frame a.Sp.Fireball 20
                 frame a.Sp.Fireball 25
+                spawn "Fireball" (Around(At.Foot, 150, 60<deg>)) 25<deg> (args 8)
+                frame a.Sp.Fireball 26
                 playSound Sfx.Fireball
                 effect Vfx.Fireball.Flash At.Hand [ Translate(Axis.X, -5); Translate(Axis.Y, 20) ]
-                spawn "Fireball" (Around(At.Foot, 150, 60<deg>)) 25<deg> (args 8)
+                frame a.Sp.Fireball 27
 
                 phase Recovery
-                frame a.Sp.Fireball 26
-                frame a.Sp.Fireball 27
                 animate a.Sp.Fireball 33 66
             }
         }
@@ -119,7 +136,7 @@ let states =
 
             attack {
                 projectile
-                heavy
+                unique
             }
 
             action {
@@ -134,15 +151,16 @@ let states =
                 animate a.Sp.Fireball 11 15
                 frame a.Sp.Fireball 18
                 frame a.Sp.Fireball 20
+
                 frame a.Sp.Fireball 25
+                spawn "FireballEX" At.Hint (args 10)
+                frame a.Sp.Fireball 26
                 playSound Sfx.Fireball
                 effect Vfx.Fireball.Flash At.Hand
-                spawn "FireballEX" At.Hint (args 10)
+                frame a.Sp.Fireball 27
 
                 phase Recovery
                 clearAura Vfx.Auras.EX
-                frame a.Sp.Fireball 26
-                frame a.Sp.Fireball 27
                 animate a.Sp.Fireball 33 66
             }
         }
@@ -182,7 +200,7 @@ let states =
                     set Offset.Y 0
                 }
 
-                On DidHit { shake 20<frames> (4, 6) }
+                On DidHit { screenShake 20<frames> (4, 6) }
 
                 phase Startup
                 animate a.Sp.Tatsu.Start 1 4
@@ -255,7 +273,7 @@ let states =
                     set Offset.Y 0
                 }
 
-                On DidHit { shake 20<frames> (8, 10) }
+                On DidHit { screenShake 20<frames> (8, 10) }
 
                 phase Startup
                 animate a.Sp.Tatsu.Start 1 4
@@ -333,7 +351,7 @@ let states =
                     set Offset.Y 0
                 }
 
-                On DidHit { shake 20<frames> (8, 10) }
+                On DidHit { screenShake 20<frames> (8, 10) }
 
                 phase Startup
                 animate a.Sp.Tatsu.Start 1 10
@@ -394,8 +412,8 @@ let states =
             let pushAmount = 170
 
             attack {
+                unique
                 strike
-                heavy
                 kick
                 looks High
                 hitSound Sfx.Hit.Heavy
@@ -534,7 +552,7 @@ let states =
                 animate a.Sp.Uppercut 20 25
                 clear Vel.X
                 clear Friction
-                On Landing { gotoParent "landing" }
+                On Landing { goto "landing" }
                 animate a.Sp.Uppercut 26 50
 
                 label "landing"
@@ -591,7 +609,7 @@ let states =
                 animate a.Sp.Uppercut 20 25
                 clear Vel.X
                 clear Friction
-                On Landing { gotoParent "landing" }
+                On Landing { goto "landing" }
                 animate a.Sp.Uppercut 26 50
 
                 label "landing"
@@ -607,7 +625,10 @@ let states =
 
             trigger { command DP HP }
 
-            transitions { t.specialDashCancellable }
+            transitions {
+                t.specialDashCancellable
+                chain t.allSupers
+            }
 
             attack {
                 heavy
@@ -652,7 +673,7 @@ let states =
                 animate a.Sp.Uppercut 20 25
                 clear Vel.X
                 clear Friction
-                On Landing { gotoParent "landing" }
+                On Landing { goto "landing" }
                 animate a.Sp.Uppercut 26 50
 
                 label "landing"
@@ -683,8 +704,8 @@ let states =
             }
 
             attack {
-                heavy
                 punch
+                unique
                 damage 70
                 gain r.Energy 20
                 hitSound Sfx.Hit.Heavy
@@ -735,7 +756,7 @@ let states =
                 animate a.Sp.Uppercut 20 25
                 clear Vel.X
                 clear Friction
-                On Landing { gotoParent "landing" }
+                On Landing { goto "landing" }
                 animate a.Sp.Uppercut 26 50
 
                 label "landing"
@@ -751,8 +772,12 @@ let states =
             category Special
             require Grounded
 
-            trigger { command !B F LK }
-            transitions { t.specialDashCancellable }
+            trigger { command (C.B' Speed.Fast) F LK }
+
+            transitions {
+                chain t.allSupers
+                t.specialDashCancellable
+            }
 
             attack {
                 light
@@ -774,7 +799,7 @@ let states =
 
                 On DidHit {
                     set Friction 2
-                    shake 12<frames> (6, 8)
+                    screenShake 12<frames> (6, 8)
                 }
 
                 phase Startup
@@ -804,7 +829,11 @@ let states =
             require Grounded
 
             trigger { command !B F MK }
-            transitions { t.specialDashCancellable }
+
+            transitions {
+                chain t.allSupers
+                t.specialDashCancellable
+            }
 
             attack {
                 medium
@@ -827,7 +856,7 @@ let states =
 
                 On DidHit {
                     set Friction 2
-                    shake 20<frames> (6, 8)
+                    screenShake 20<frames> (6, 8)
                 }
 
                 phase Startup
@@ -857,7 +886,10 @@ let states =
 
             trigger { command !B F HK }
 
-            transitions { t.specialDashCancellable }
+            transitions {
+                chain t.allSupers
+                t.specialDashCancellable
+            }
 
             attack {
                 heavy
@@ -884,7 +916,7 @@ let states =
 
                 On DidHit {
                     set Friction 2.4
-                    shake 20<frames> (6, 8)
+                    screenShake 20<frames> (6, 8)
                 }
 
                 phase Startup
@@ -916,9 +948,14 @@ let states =
             cost r.Energy 100
             trigger { command !B F KK }
 
+            transitions {
+                chain t.allSupers
+                t.specialDashCancellable
+            }
+
             attack {
-                heavy
                 kick
+                unique
                 hitSound Sfx.Hit.Heavy
                 damage 80
                 damage r.Stamina 10 OnBlock
@@ -946,7 +983,7 @@ let states =
 
                 On DidHit {
                     set Friction 2.2
-                    shake 20<frames> (6, 8)
+                    screenShake 20<frames> (6, 8)
                 }
 
                 phase Startup
@@ -1017,7 +1054,7 @@ let states =
                 animate a.Sp.DiveKick 1 15
 
                 phase Active
-                On Landing { gotoParent "landed" }
+                On Landing { goto "landed" }
                 On ActionEnd { clear Vel }
                 playSound Sfx.Swing.MK
                 set Vel.X Arg1
@@ -1026,7 +1063,7 @@ let states =
 
                 Repeat(Var.Body.currentFallFrames - 3) { frame }
                 attackExtra HitStun 3<frames>
-                On(DidHit, GotBlocked) { shake 14<frames> 6.5 }
+                On(DidHit, GotBlocked) { screenShake 14<frames> 6.5 }
                 Loop { frame }
 
                 label "landed"
@@ -1142,7 +1179,7 @@ let states =
                 animate a.Sp.DiveKick 3 15
 
                 phase Active
-                On Landing { gotoParent "landed" }
+                On Landing { goto "landed" }
                 On ActionEnd { clear Vel }
                 playSound Sfx.Swing.MK
                 set Vel (12, -14)
@@ -1150,7 +1187,7 @@ let states =
 
                 Repeat(Var.Body.currentFallFrames - 3) { frame }
                 attackExtra HitStun 4<frames>
-                On(DidHit, GotBlocked) { shake 14<frames> 6.5 }
+                On(DidHit, GotBlocked) { screenShake 14<frames> 6.5 }
                 Loop { frame }
 
                 label "landed"
@@ -1166,4 +1203,69 @@ let states =
                 fitAnimate (num 11) a.Sp.DiveKickLanding 1 23
             }
         }
+
+        def STATE s.Super.Fireball {
+            stance Stand
+            category Super
+            cost r.Energy 300
+            condition (!Query.Entity.OfType.Projectile())
+
+            trigger {
+                allowedGap 12<frames>
+                command QCFx2 LP
+                command QCFx2 MP
+                command QCFx2 HP
+            }
+
+            attack {
+                projectile
+                unique
+            }
+
+            action {
+                On ActionBegin {
+                    playSound Sfx.ActivateSuper
+                    enable FullyInvuln
+                }
+
+                On ActionEnd {
+                    cameraReset
+                    disable FullyInvuln
+                }
+
+                cameraFocus
+                cameraZoom 150 20<frames> (0, -25)
+                effect Vfx.DarkScreen
+
+                phase Startup
+                enable EntityFlags.UpdateDuringFreeze
+                freeze 45<frames>
+
+                animate a.Sp.Fireball 1 5
+                effect Vfx.Fireball.Super Target.Self At.Hand
+                playVoice "line_super1_start" (Pitch 2<percent>)
+
+                fitAnimate (num 34) a.Sp.Fireball 6 12
+                disable EntityFlags.UpdateDuringFreeze
+                frame a.Sp.Fireball 13
+                cameraReset
+                playVoice "line_super1_act" (Pitch 2<percent>) (Volume 8<Db>)
+
+                frame a.Sp.Fireball 15
+                frame a.Sp.Fireball 18
+                frame a.Sp.Fireball 20
+
+                frame a.Sp.Fireball 25
+                spawn "SuperFireball" At.Hint (args 16)
+                frame a.Sp.Fireball 26
+                playSound Sfx.Fireball
+                effect Vfx.Fireball.Flash At.Hand
+                frame a.Sp.Fireball 27
+
+                phase Recovery
+                disable FullyInvuln
+                fitAnimate (num 78) a.Sp.Fireball 28 66
+            }
+        }
+
     }

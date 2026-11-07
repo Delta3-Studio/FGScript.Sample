@@ -70,6 +70,8 @@ module t =
             Sp.DiveKick.EX
         }
 
+    let allSupers = transitions { Super.Fireball }
+
     let allJumps =
         transitions {
             Jump.Neutral
@@ -93,9 +95,11 @@ module t =
 
     let allAttacks =
         transitions {
-            allNormals
+            allSupers
             allSpecials
+            allNormals
         }
+
 
     let specialDashCancellable =
         chainTo Dash.F {

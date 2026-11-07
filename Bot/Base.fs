@@ -17,8 +17,7 @@ let states =
                 t.allDashes
                 t.allJumps
                 t.regularThrows
-                t.allSpecials
-                t.allNormals
+                t.allAttacks
                 t.allTaunts
             }
 
@@ -28,7 +27,7 @@ let states =
             action {
                 On ActionBegin { call "CheckThrowInvuln" }
                 On EachFrame { gain r.Stamina p.StaminaRecovery.Normal }
-                On ChangeSide { gotoParent "turned" true }
+                On ChangeSide { goto "turned" JumpMode.ForceFrame }
 
                 If(Query.LastState s.Cr.Neutral) {
                     animate Blend (a.Cr.Idle, a.St.Idle) 0 5
@@ -109,8 +108,7 @@ let states =
             transitions {
                 t.regularThrows
                 t.allJumps
-                t.allNormals
-                t.allSpecials
+                t.allAttacks
                 t.allTaunts
             }
 
@@ -122,7 +120,7 @@ let states =
                     Unless(Query.Input { command D }) { exit }
                 }
 
-                On ChangeSide { gotoParent "turned" true }
+                On ChangeSide { goto "turned" JumpMode.ForceFrame }
 
                 If(Query.LastState(s.Cr.Guard, s.Cr.BlockStun)) {
                     animate a.Cr.Guard 34 44
@@ -181,8 +179,7 @@ let states =
             transitions {
                 t.allJumps
                 t.regularThrows
-                t.allSpecials
-                t.allNormals
+                t.allAttacks
                 t.allTaunts
             }
 
@@ -205,8 +202,7 @@ let states =
             transitions {
                 t.allJumps
                 t.regularThrows
-                t.allSpecials
-                t.allNormals
+                t.allAttacks
                 t.allTaunts
             }
 
@@ -326,12 +322,12 @@ let states =
             trigger {
                 command D D (HP + HK)
                 negativeEdge false
-                motionGap 5<frames>
+                allowedGap 5<frames>
             }
 
             action {
                 animate a.Taunt.Hurry 0 30
-                playVoice v.Outro.Taunt
+                playVoice v.Outro.Taunt (Pitch 2<percent>)
                 animate a.Taunt.Hurry 31 100
                 gain r.Energy 100
                 animate a.Taunt.Hurry 101 120

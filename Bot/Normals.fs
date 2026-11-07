@@ -13,9 +13,10 @@ let states =
 
             transitions {
                 chain t.allSpecials
+                chain t.allSupers
 
                 transitions {
-                    afterFrame 8<frames>
+                    after 8<frames>
                     chain s.St.LP
                     chain s.Cr.LP
                 }
@@ -56,6 +57,7 @@ let states =
 
             transitions {
                 chain t.allSpecials 16<window>
+                chain t.allSupers 16<window>
 
                 chainTo s.Chain.MP_HP {
                     lenience 10<frames>
@@ -118,11 +120,20 @@ let states =
             }
 
             let chargeBend = var ()
+            let fullyCharged = var ()
             let chargeTime = 20
 
             action {
-                On DidHit { shake 15<frames> (7, 9) }
-                disable ArmorBox
+                On ActionBegin {
+                    disable ArmorBox
+                    clear fullyCharged
+                }
+
+                On DidHit {
+                    If fullyCharged { screenShake 20<frames> (10, 12) }
+                    Else { screenShake 15<frames> (7, 9) }
+                }
+
                 phase Startup
                 animate a.St.HP 1 5
 
@@ -146,11 +157,12 @@ let states =
 
                 If(Var.currentFrame .> chargeTime) {
                     log "HP: Fully Charged"
+                    set fullyCharged
                     add BlockStun 9<frames>
                     add HitStun 7<frames>
-                    attackFreeze 13<frames> (On(CounterHit, Punish))
+                    attackFreeze 15<frames> (On(CounterHit, Punish))
 
-                    hitFlags (On Punish) HitFlags.CausesCrumple
+                    set (On Punish) HitFlags.CausesCrumple
                     hitSound Sfx.Hit.Power (On Punish)
                     hitSpark Vfx.HitSpark.PunishCrumple (On Punish)
                 }
@@ -182,7 +194,10 @@ let states =
 
             trigger { command LK }
 
-            transitions { chain t.allSpecials }
+            transitions {
+                chain t.allSpecials
+                chain t.allSupers
+            }
 
             attack {
                 light
@@ -293,7 +308,7 @@ let states =
                 // Ping test
                 send Signal.Opponent (num 1) Var.currentRoundFrame
 
-                On DidHit { shake 20<frames> (10, 12) }
+                On DidHit { screenShake 20<frames> (10, 12) }
 
                 phase Startup
                 animate a.St.HK 0 2
@@ -321,9 +336,10 @@ let states =
 
             transitions {
                 chain t.allSpecials
+                chain t.allSupers
 
                 transitions {
-                    afterFrame 8<frames>
+                    after 8<frames>
                     chain s.Cr.LK
                     chain s.Cr.LP
                     chain s.St.LP
@@ -367,6 +383,7 @@ let states =
 
             transitions {
                 chain t.allSpecials
+                chain t.allSupers
 
                 chainTo s.Chain.cMP_cHP {
                     lenience 10<frames>
@@ -414,6 +431,8 @@ let states =
 
             transitions {
                 chain t.allSpecials
+                chain t.allSupers
+
 
                 chainTo t.allJumps {
                     On(CounterHit)
@@ -506,6 +525,7 @@ let states =
             transitions {
                 cancelWindow 26<frames>
                 chain t.allSpecials
+                chain t.allSupers
             }
 
             attack {
@@ -926,7 +946,10 @@ let states =
                 inputWindow 16<frames>
             }
 
-            transitions { t.specialDashCancellable }
+            transitions {
+                chain t.allSupers
+                t.specialDashCancellable
+            }
 
             attack {
                 heavy
@@ -957,6 +980,7 @@ let states =
             transitions {
                 cancelWindow 24<frames>
                 chain t.allSpecials
+                chain t.allSupers
                 chain t.allJumps
             }
 
