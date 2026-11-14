@@ -811,7 +811,7 @@ let states =
 
                 phase Active
                 effect Vfx.Dust At.Foot [ (Scale(Axis.XY, 1.25)) ]
-                set Vel.X 18
+                set Vel.X 19
                 set Friction 1
                 animate a.Sp.DonkeyKick 27 32
 
@@ -868,7 +868,7 @@ let states =
 
                 phase Active
                 effect Vfx.Dust At.Foot [ (Scale(Axis.XY, 1.25)) ]
-                set Vel.X 20
+                set Vel.X 21
                 set Friction 1.2
                 animate a.Sp.DonkeyKick 27 36
 
@@ -928,7 +928,7 @@ let states =
 
                 phase Active
                 effect Vfx.Dust At.Foot [ (Scale(Axis.XY, 1.25)) ]
-                set Vel.X 25
+                set Vel.X 26
                 set Friction 1.2
                 animate a.Sp.DonkeyKick 27 30
                 animate a.Sp.DonkeyKick 31 36

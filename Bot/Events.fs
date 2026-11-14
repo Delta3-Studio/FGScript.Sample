@@ -8,7 +8,7 @@ let states =
         On INIT { log "INIT: Fight Bot" }
 
         On NEUTRAL {
-            clear Acc
+            clear Acc // LATER: probably not needed anymore
             send Signal.Children (%"ChildMessageValue" + 10)
         }
 

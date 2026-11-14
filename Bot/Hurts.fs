@@ -162,7 +162,7 @@ let states =
                         Args.HitStun.flagged HitFlags.WallBounce
                         .& !Query.HasHitFlagsInCombo(HitFlags.WallBounce)
                     ) {
-                        requestState s.HitStun.WallBounce
+                        requestState s.HitStun.WallBounce Args.Forward
                     }
 
                     ElseIf(Args.HitStun.flagged HitFlags.WallSplat) { requestState s.HitStun.WallSplat }
@@ -275,13 +275,19 @@ let states =
                 If(FinalPosition.Y .< 80) { set FinalPosition.Y 80 }
                 effect Vfx.WallHit (ClosestWall 80) [ Rotate(Axis.Y, 75.<deg>) ]
                 frame
+
                 screenShake 20<frames> (4, 6)
                 pause 6<frames>
                 animate a.HitStun.WallBounce 0 2
-                set Gravity p.SlowGravity
-                set Vel (7, 14)
+
+                launchTo
+                    Args.HitStun.sourceEntityId
+                    45<frames>
+                    (LaunchArgs(Gravity = p.SlowGravity, MinDistance = 250, Height = 80, Offset = (100.0, 0.0)))
+
                 On Landing { exit }
                 fitAnimate Var.Body.currentApexFrames a.HitStun.WallBounce 3 30
+
                 animate a.HitStun.WallBounce 31 62
                 Loop { frame }
             }

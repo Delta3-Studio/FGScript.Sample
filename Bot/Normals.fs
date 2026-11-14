@@ -206,7 +206,7 @@ let states =
                 looks Low
                 damage 30
                 gain r.Energy 10
-                set Stun.Light
+                set (Stun.Light.AddHitStun 2)
                 set JuggleLimit p.JL.Normals
                 set HitFlags.Flipout
             }
@@ -622,6 +622,7 @@ let states =
 
             action {
                 On Landing { exit }
+
                 phase Startup
                 animate a.Jump.LP 1 2
                 playVoice v.Attack.Light Skippable
